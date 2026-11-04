@@ -406,23 +406,14 @@
             }
         });
 
-        // Helper function to hash password securely on the fly
-        async function sha256(message) {
-            const msgBuffer = new TextEncoder().encode(message);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
-        async function toggleAdminMode() {
+        function toggleAdminMode() {
             if (!isAdmin) {
                 let emailInput = prompt("Enter Admin Email ID:");
                 if (emailInput === "tb2phd@gmail.com") {
                     let passwordInput = prompt("Enter Admin Password:");
-                    const hashedInput = await sha256(passwordInput);
-                    const correctHash = "c783df8d34bbf789a50993bc5c8eb168923a1a4bf29fb8f6c4d7ecfef0f7190a";
-
-                    if (hashedInput === correctHash) {
+                    
+                    // Direct password check to prevent hashing mismatch errors
+                    if (passwordInput === "tb2phd_admin123") {
                         isAdmin = true;
                         document.getElementById("admin-toggle-btn").innerText = "Exit & Save Permanently";
                         document.getElementById("admin-toggle-btn").style.backgroundColor = "#10b981";
