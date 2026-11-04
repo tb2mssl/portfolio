@@ -160,6 +160,40 @@
             color: var(--accent);
         }
 
+        /* Contact Form Styles */
+        .contact-form {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .form-group input, .form-group textarea {
+            padding: 0.75rem;
+            background: var(--bg-color);
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
         footer {
             text-align: center;
             padding: 3rem;
@@ -212,7 +246,7 @@
             <a href="#about">About</a>
             <a href="#projects">Projects</a>
             <a href="#skills">Skills</a>
-            <a href="#contact">Contact</a>
+            <a href="#contact-section">Contact</a>
         </nav>
     </header>
 
@@ -255,14 +289,14 @@
                 <!-- Project 3 -->
                 <div class="project-card">
                     <h3 class="editable" data-field="proj3Title">Space Weather Research</h3>
-                    <p class="editable" data-field="proj3Desc">The website represents about the Space Weather Research</p>
+                    <p class="editable" data-field="proj3Desc">An interactive scientific web platform designed to translate complex space weather phenomena, solar data metrics, and atmospheric telemetry into accessible visual insights.</p>
                     <a href="https://tushar-tb2.github.io/swr/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" target="_blank">Live Demo</a>
                 </div>
 
                 <!-- Project 4 -->
                 <div class="project-card">
                     <h3 class="editable" data-field="proj4Title">Monthly Newsletter Generator</h3>
-                    <p class="editable" data-field="proj4Desc">The website helps to build monthly reports</p>
+                    <p class="editable" data-field="proj4Desc">A productivity-focused web utility that automates monthly report structuring, simplifies recurring content generation, and streamlines document exporting.</p>
                     <a href="https://tb2msslmonthlyreportgenerator.netlify.app/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" target="_blank">Live Demo</a>
                 </div> 
             </div>
@@ -283,6 +317,26 @@
                 <div class="skill-tag">Jupyter Notebooks</div>
             </div>
         </section>
+
+        <!-- Contact Form Section -->
+        <section id="contact-section">
+            <h2>Get In Touch</h2>
+            <form action="https://formspree.io/f/your-form-id" method="POST" class="contact-form">
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" name="name" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Your Email ID</label>
+                    <input type="email" name="email" required placeholder="john@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea name="message" rows="5" required placeholder="Write your message here..."></textarea>
+                </div>
+                <button type="submit" class="btn">Send Message</button>
+            </form>
+        </section>
     </main>
 
     <footer id="contact">
@@ -297,28 +351,62 @@
     <script>
         let isAdmin = false;
 
+        // Load saved portfolio content from browser localStorage on startup
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedData = localStorage.getItem('portfolio_tb2phd_data');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                if (data.heroTitle) document.getElementById('hero-title').innerHTML = data.heroTitle;
+                if (data.heroSubtitle) document.getElementById('hero-subtitle').innerText = data.heroSubtitle;
+                if (data.aboutText) document.getElementById('about-text').innerText = data.aboutText;
+                if (data.logo) document.getElementById('logo-text').innerText = data.logo;
+                if (data.proj1Desc) document.querySelector('[data-field="proj1Desc"]').innerText = data.proj1Desc;
+                if (data.proj2Desc) document.querySelector('[data-field="proj2Desc"]').innerText = data.proj2Desc;
+                if (data.proj3Desc) document.querySelector('[data-field="proj3Desc"]').innerText = data.proj3Desc;
+                if (data.proj4Desc) document.querySelector('[data-field="proj4Desc"]').innerText = data.proj4Desc;
+            }
+        });
+
         function toggleAdminMode() {
             if (!isAdmin) {
-                let password = prompt("Enter Admin Password (default: admin123):");
-                if (password === "admin123") {
-                    isAdmin = true;
-                    document.getElementById("admin-toggle-btn").innerText = "Exit & Save";
-                    document.getElementById("admin-toggle-btn").style.backgroundColor = "#10b981";
-                    
-                    // Enable content editing
-                    document.querySelectorAll('.editable').forEach(el => {
-                        el.setAttribute('contenteditable', 'true');
-                    });
+                let emailInput = prompt("Enter Admin Email ID:");
+                if (emailInput === "tb2phd@gmail.com") {
+                    let passwordInput = prompt("Enter Admin Password:");
+                    if (passwordInput === "tb2phd_admin123") {
+                        isAdmin = true;
+                        document.getElementById("admin-toggle-btn").innerText = "Exit & Save Permanently";
+                        document.getElementById("admin-toggle-btn").style.backgroundColor = "#10b981";
+                        
+                        // Enable content editing
+                        document.querySelectorAll('.editable').forEach(el => {
+                            el.setAttribute('contenteditable', 'true');
+                        });
 
-                    // Show AI buttons
-                    document.querySelectorAll('.ai-btn').forEach(btn => {
-                        btn.style.display = 'inline-block';
-                    });
-                    alert("Admin mode activated! You can now edit text inline or use the AI assistant buttons.");
-                } else if (password !== null) {
-                    alert("Incorrect password.");
+                        // Show AI buttons
+                        document.querySelectorAll('.ai-btn').forEach(btn => {
+                            btn.style.display = 'inline-block';
+                        });
+                        alert("Welcome back! Admin access granted.");
+                    } else {
+                        alert("Incorrect password.");
+                    }
+                } else if (emailInput !== null) {
+                    alert("Access Denied: Unauthorized email address.");
                 }
             } else {
+                // Save current edits permanently to browser localStorage
+                const portfolioData = {
+                    heroTitle: document.getElementById('hero-title').innerHTML,
+                    heroSubtitle: document.getElementById('hero-subtitle').innerText,
+                    aboutText: document.getElementById('about-text').innerText,
+                    logo: document.getElementById('logo-text').innerText,
+                    proj1Desc: document.querySelector('[data-field="proj1Desc"]').innerText,
+                    proj2Desc: document.querySelector('[data-field="proj2Desc"]').innerText,
+                    proj3Desc: document.querySelector('[data-field="proj3Desc"]').innerText,
+                    proj4Desc: document.querySelector('[data-field="proj4Desc"]').innerText
+                };
+                localStorage.setItem('portfolio_tb2phd_data', JSON.stringify(portfolioData));
+
                 isAdmin = false;
                 document.getElementById("admin-toggle-btn").innerText = "Admin Login";
                 document.getElementById("admin-toggle-btn").style.backgroundColor = "var(--accent)";
@@ -332,11 +420,11 @@
                 document.querySelectorAll('.ai-btn').forEach(btn => {
                     btn.style.display = 'none';
                 });
-                alert("Changes saved locally to session view!");
+                alert("Changes saved permanently to browser storage!");
             }
         }
 
-        // AI Generator Integration with Detailed Project Write-ups
+        // AI Generator Integration with Persistence Support
         function triggerAI(sectionType) {
             if (sectionType === 'hero') {
                 document.getElementById('hero-title').innerHTML = "Hi, I'm <span>Full-Stack Engineer</span>";
@@ -344,23 +432,12 @@
             } else if (sectionType === 'about') {
                 document.getElementById('about-text').innerText = "Passionate software engineer with a strong academic and practical background in full-stack development, Python backend services, and relational data management. Adept at building robust utilities, custom tracking systems, and efficient deployment pipelines.";
             } else if (sectionType === 'projects') {
-                // Project 1: Orbis CRM Web App
-                document.querySelector('[data-field="proj1Desc"]').innerText = 
-                    "A robust full-stack CRM web application built using Python, Flask, and SQLite. Features secure user authentication, interactive data entry grids, and clean dashboard layouts designed to streamline client tracking.";
-                
-                // Project 2: Basic CRM
-                document.querySelector('[data-field="proj2Desc"]').innerText = 
-                    "A lightweight, high-performance single-page dashboard optimized for tracking session statistics, maintaining structured progress notes, and organizing media records cleanly.";
-                
-                // Project 3: Space Weather Research
-                document.querySelector('[data-field="proj3Desc"]').innerText = 
-                    "An interactive scientific web platform designed to translate complex space weather phenomena, solar data metrics, and atmospheric telemetry into accessible visual insights.";
-                
-                // Project 4: Monthly Newsletter Generator
-                document.querySelector('[data-field="proj4Desc"]').innerText = 
-                    "A productivity-focused web utility that automates monthly report structuring, simplifies recurring content generation, and streamlines document exporting.";
+                document.querySelector('[data-field="proj1Desc"]').innerText = "A robust full-stack CRM web application built using Python, Flask, and SQLite. Features secure user authentication, interactive data entry grids, and clean dashboard layouts designed to streamline client tracking.";
+                document.querySelector('[data-field="proj2Desc"]').innerText = "A lightweight, high-performance single-page dashboard optimized for tracking session statistics, maintaining structured progress notes, and organizing media records cleanly.";
+                document.querySelector('[data-field="proj3Desc"]').innerText = "An interactive scientific web platform designed to translate complex space weather phenomena, solar data metrics, and atmospheric telemetry into accessible visual insights.";
+                document.querySelector('[data-field="proj4Desc"]').innerText = "A productivity-focused web utility that automates monthly report structuring, simplifies recurring content generation, and streamlines document exporting.";
 
-                alert("✨ AI successfully enhanced all project descriptions with professional project write-ups!");
+                alert("✨ AI successfully enhanced all project descriptions! Click 'Exit & Save Permanently' to store changes.");
             }
         }
     </script>
