@@ -319,29 +319,65 @@
         </section>
 
         <!-- Contact Form Section -->
-        <section id="contact-section">
-            <h2>Get In Touch</h2>
-            <form action="https://formspree.io/f/your-form-id" method="POST" class="contact-form">
-                <div class="form-group">
-                    <label>Your Name</label>
-                    <input type="text" name="name" required placeholder="John Doe">
-                </div>
-                <div class="form-group">
-                    <label>Your Email ID</label>
-                    <input type="email" name="email" required placeholder="john@example.com">
-                </div>
-                <div class="form-group">
-                    <label>Message</label>
-                    <textarea name="message" rows="5" required placeholder="Write your message here..."></textarea>
-                </div>
-                <button type="submit" class="btn">Send Message</button>
-            </form>
-        </section>
-    </main>
+<section id="contact-section">
+    <h2>Get In Touch</h2>
+    <form id="contact-form" class="contact-form" onsubmit="submitContactForm(event)">
+        <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" id="form-name" name="name" required placeholder="John Doe">
+        </div>
+        <div class="form-group">
+            <label>Your Email ID</label>
+            <input type="email" id="form-email" name="email" required placeholder="john@example.com">
+        </div>
+        <div class="form-group">
+            <label>Message</label>
+            <textarea id="form-message" name="message" rows="5" required placeholder="Write your message here..."></textarea>
+        </div>
+        <button type="submit" id="submit-btn" class="btn">Send Message</button>
+    </form>
+</section>
 
-    <footer id="contact">
-        <p class="editable" data-field="footerText">© 2026 Developer Portfolio. Built with passion and clean code.</p>
-    </footer>
+<script>
+    // Replace with your actual deployed Google Apps Script Web App URL
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwUVEF5mFqVMl3x51jMZHcEcC85sgX5XqE6f_SkCQM_yntABf2z2qdxazoTCSeGUxsxag/exec";
+
+    function submitContactForm(event) {
+        event.preventDefault();
+        
+        const btn = document.getElementById("submit-btn");
+        btn.innerText = "Sending...";
+        btn.disabled = true;
+
+        const formData = {
+            name: document.getElementById("form-name").value,
+            email: document.getElementById("form-email").value,
+            message: document.getElementById("form-message").value
+        };
+
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors", // Required for Google Apps Script web app endpoints
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(() => {
+            alert("Thank you! Your message has been sent successfully, and logged to your portfolio records.");
+            document.getElementById("contact-form").reset();
+            btn.innerText = "Send Message";
+            btn.disabled = false;
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+            alert("Oops! Something went wrong. Please try again.");
+            btn.innerText = "Send Message";
+            btn.disabled = false;
+        });
+    }
+</script> 
+                
 
     <!-- Admin Floating Control Bar -->
     <div id="admin-bar">
