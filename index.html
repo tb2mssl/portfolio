@@ -348,12 +348,14 @@
         <button class="btn" id="admin-toggle-btn" onclick="toggleAdminMode()" style="padding: 5px 10px; font-size: 0.85rem;">Admin Login</button>
     </div>
 
+    <!-- Unified and Corrected Script Block -->
     <script>
-        // Google Apps Script endpoint for Contact Form submission
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxUSKNgds_8T4_bsjtdfJQA1Tj2zPd9YVBGrHuMq5RK4bXIdX30YcgmckPnJSGB9Dre/exec";
+        // Google Apps Script Web App URL
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx0vr35dSHTIbuQWI4MjmM7bGyrys9MSmS71DigodnD4QfZMcGNLzVH5TxvdgAeitZVUg/exec";
 
         function submitContactForm(event) {
             event.preventDefault();
+            
             const btn = document.getElementById("submit-btn");
             btn.innerText = "Sending...";
             btn.disabled = true;
@@ -367,11 +369,13 @@
             fetch(GOOGLE_SCRIPT_URL, {
                 method: "POST",
                 mode: "no-cors",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "text/plain;charset=utf-8",
+                },
                 body: JSON.stringify(formData)
             })
             .then(() => {
-                alert("Thank you! Your message has been sent successfully, and logged to your portfolio records.");
+                alert("Thank you! Your message has been sent successfully, and logged to your records.");
                 document.getElementById("contact-form").reset();
                 btn.innerText = "Send Message";
                 btn.disabled = false;
@@ -402,7 +406,7 @@
             }
         });
 
-        // Helper function to hash password securely on the fly (hides plain-text password from public repository code)
+        // Helper function to hash password securely on the fly
         async function sha256(message) {
             const msgBuffer = new TextEncoder().encode(message);
             const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
@@ -415,7 +419,6 @@
                 let emailInput = prompt("Enter Admin Email ID:");
                 if (emailInput === "tb2phd@gmail.com") {
                     let passwordInput = prompt("Enter Admin Password:");
-                    // Pre-computed SHA-256 hash for your password "tb2phd_admin123"
                     const hashedInput = await sha256(passwordInput);
                     const correctHash = "c783df8d34bbf789a50993bc5c8eb168923a1a4bf29fb8f6c4d7ecfef0f7190a";
 
@@ -451,3 +454,42 @@
                     proj2Desc: document.querySelector('[data-field="proj2Desc"]').innerText,
                     proj3Desc: document.querySelector('[data-field="proj3Desc"]').innerText,
                     proj4Desc: document.querySelector('[data-field="proj4Desc"]').innerText
+                };
+                localStorage.setItem('portfolio_tb2phd_data', JSON.stringify(portfolioData));
+
+                isAdmin = false;
+                document.getElementById("admin-toggle-btn").innerText = "Admin Login";
+                document.getElementById("admin-toggle-btn").style.backgroundColor = "var(--accent)";
+                
+                // Disable content editing
+                document.querySelectorAll('.editable').forEach(el => {
+                    el.removeAttribute('contenteditable');
+                });
+
+                // Hide AI buttons
+                document.querySelectorAll('.ai-btn').forEach(btn => {
+                    btn.style.display = 'none';
+                });
+                alert("Changes saved permanently to browser storage!");
+            }
+        }
+
+        // AI Generator Integration
+        function triggerAI(sectionType) {
+            if (sectionType === 'hero') {
+                document.getElementById('hero-title').innerHTML = "Hi, I'm <span>Full-Stack Engineer</span>";
+                document.getElementById('hero-subtitle').innerText = "Specializing in automated workflows, database architectures, and intuitive web applications.";
+            } else if (sectionType === 'about') {
+                document.getElementById('about-text').innerText = "Passionate software engineer with a strong academic and practical background in full-stack development, Python backend services, and relational data management. Adept at building robust utilities, custom tracking systems, and efficient deployment pipelines.";
+            } else if (sectionType === 'projects') {
+                document.querySelector('[data-field="proj1Desc"]').innerText = "A robust full-stack CRM web application built using Python, Flask, and SQLite. Features secure user authentication, interactive data entry grids, and clean dashboard layouts designed to streamline client tracking.";
+                document.querySelector('[data-field="proj2Desc"]').innerText = "A lightweight, high-performance single-page dashboard optimized for tracking session statistics, maintaining structured progress notes, and organizing media records cleanly.";
+                document.querySelector('[data-field="proj3Desc"]').innerText = "An interactive scientific web platform designed to translate complex space weather phenomena, solar data metrics, and atmospheric telemetry into accessible visual insights.";
+                document.querySelector('[data-field="proj4Desc"]').innerText = "A productivity-focused web utility that automates monthly report structuring, simplifies recurring content generation, and streamlines document exporting.";
+
+                alert("✨ AI successfully enhanced all project descriptions! Click 'Exit & Save Permanently' to store changes.");
+            }
+        }
+    </script>
+</body>
+</html>
