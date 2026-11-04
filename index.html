@@ -235,34 +235,40 @@
         </section>
 
         <!-- Projects Section -->
-        <section id="projects">
-            <h2>Featured Projects</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <h3 class="editable" data-field="proj1Title">Orbis CRM Web App</h3>
-                    <p class="editable" data-field="proj1Desc">A full-stack customer relationship management tool built using Python, Flask, and SQLite. Features user authentication, dynamic data entry tables, and clean dashboard layouts.</p>
-                    <a href="https://tb2msslintcrm1.netlify.app/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Live Demo</a>
-                 </div>
-                 <button class="ai-btn" style="margin-top: 1rem;" onclick="triggerAI('projects')">✨ AI Enhance Projects</button>                <div class="project-card">
-                    <h3 class="editable" data-field="proj2Title">Basic CRM</h3>
-                    <p class="editable" data-field="proj2Desc">A front-end single-page dashboard designed for tracking session statistics, progress notes, and media records cleanly hosted via GitHub Pages.</p>
-                    <a href="https://lead-crm-wug0.onrender.com/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Live Demo</a>
-                </div>
-                 <button class="ai-btn" style="margin-top: 1rem;" onclick="triggerAI('projects')">✨ AI Enhance Projects</button>
-              <div class="project-card">
-                    <h3 class="editable" data-field="proj2Title"> Space Weather Research </h3>
-                    <p class="editable" data-field="proj2Desc"> The website representes about the Space Weather Research</p>
-                    <a href="https://tushar-tb2.github.io/swr/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Live Demo</a>
-                </div>
-                <button class="ai-btn" style="margin-top: 1rem;" onclick="triggerAI('projects')">✨ AI Enhance Projects</button>
-              <div class="project-card">
-                    <h3 class="editable" data-field="proj2Title">Monthly Newsletter Generator </h3>
-                    <p class="editable" data-field="proj2Desc"> The website helps to build montly reports </p>
-                    <a href="https://tb2msslmonthlyreportgenerator.netlify.app/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Live Demo</a>
-                </div> 
-            </div>
-            <button class="ai-btn" style="margin-top: 1rem;" onclick="triggerAI('projects')">✨ AI Enhance Projects</button>
-        </section>
+<!-- Projects Section -->
+<section id="projects">
+    <h2>Featured Projects</h2>
+    <div class="projects-grid">
+        <!-- Project 1 -->
+        <div class="project-card">
+            <h3 class="editable" data-field="proj1Title">Orbis CRM Web App</h3>
+            <p class="editable" data-field="proj1Desc">A full-stack customer relationship management tool built using Python, Flask, and SQLite. Features user authentication, dynamic data entry tables, and clean dashboard layouts.</p>
+            <a href="https://tb2msslintcrm1.netlify.app/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Live Demo</a>
+         </div>
+         
+        <!-- Project 2 -->
+        <div class="project-card">
+            <h3 class="editable" data-field="proj2Title">Basic CRM</h3>
+            <p class="editable" data-field="proj2Desc">A front-end single-page dashboard designed for tracking session statistics, progress notes, and media records cleanly hosted via GitHub Pages.</p>
+            <a href="https://lead-crm-wug0.onrender.com/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Live Demo</a>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="project-card">
+            <h3 class="editable" data-field="proj3Title">Space Weather Research</h3>
+            <p class="editable" data-field="proj3Desc">The website represents about the Space Weather Research</p>
+            <a href="https://tushar-tb2.github.io/swr/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Live Demo</a>
+        </div>
+
+        <!-- Project 4 -->
+        <div class="project-card">
+            <h3 class="editable" data-field="proj4Title">Monthly Newsletter Generator</h3>
+            <p class="editable" data-field="proj4Desc">The website helps to build monthly reports</p>
+            <a href="https://tb2msslmonthlyreportgenerator.netlify.app/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Live Demo</a>
+        </div> 
+    </div>
+    <button class="ai-btn" style="margin-top: 1.5rem;" onclick="triggerAI('projects')">✨ AI Enhance All Projects</button>
+</section>
 
         <!-- Skills Section -->
         <section id="skills">
@@ -332,15 +338,29 @@
         }
 
         // Simulated AI Generator Integration
-        function triggerAI(sectionType) {
-            if (sectionType === 'hero') {
-                document.getElementById('hero-title').innerHTML = "Hi, I'm <span>Full-Stack Engineer</span>";
-                document.getElementById('hero-subtitle').innerText = "Specializing in automated workflows, database architectures, and intuitive web applications.";
-            } else if (sectionType === 'about') {
-                document.getElementById('about-text').innerText = "Passionate software engineer with a strong academic and practical background in full-stack development, Python backend services, and relational data management. Adept at building robust utilities, custom tracking systems, and efficient deployment pipelines.";
-            } else if (sectionType === 'projects') {
-                alert("AI assistant analyzed your project repositories and optimized descriptions with professional impact highlights!");
-            }
+       function triggerAI(sectionType) {
+    if (sectionType === 'hero') {
+        document.getElementById('hero-title').innerHTML = "Hi, I'm <span>Full-Stack Engineer</span>";
+        document.getElementById('hero-subtitle').innerText = "Specializing in automated workflows, database architectures, and intuitive web applications.";
+    } else if (sectionType === 'about') {
+        document.getElementById('about-text').innerText = "Passionate software engineer with a strong academic and practical background in full-stack development, Python backend services, and relational data management. Adept at building robust utilities, custom tracking systems, and efficient deployment pipelines.";
+    } else if (sectionType === 'projects') {
+        // Automatically enhance all project descriptions with impact-driven text
+        document.querySelector('[data-field="proj1Desc"]').innerText = 
+            "An advanced full-stack CRM featuring secure user authentication, responsive data grids, and streamlined backend workflows built with Python and Flask.";
+        
+        document.querySelector('[data-field="proj2Desc"]').innerText = 
+            "A lightweight, lightning-fast single-page interface tailored for seamless session tracking, structured progress logging, and efficient media management.";
+        
+        document.querySelector('[data-field="proj3Desc"]').innerText = 
+            "An interactive research web platform designed to visualize space weather phenomena, solar data metrics, and atmospheric telemetry clearly.";
+        
+        document.querySelector('[data-field="proj4Desc"]').innerText = 
+            "A productivity utility web app that automates monthly report structuring, content layout generation, and streamlined document exporting.";
+
+        alert("✨ AI successfully enhanced all project descriptions with professional impact highlights!");
+    }
+}
         }
     </script>
 </body>
