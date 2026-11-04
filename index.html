@@ -242,28 +242,28 @@
                 <div class="project-card">
                     <h3 class="editable" data-field="proj1Title">Orbis CRM Web App</h3>
                     <p class="editable" data-field="proj1Desc">A full-stack customer relationship management tool built using Python, Flask, and SQLite. Features user authentication, dynamic data entry tables, and clean dashboard layouts.</p>
-                    <a href="https://tb2msslintcrm1.netlify.app/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Live Demo</a>
+                    <a href="https://tb2msslintcrm1.netlify.app/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" target="_blank">Live Demo</a>
                  </div>
                  
                 <!-- Project 2 -->
                 <div class="project-card">
                     <h3 class="editable" data-field="proj2Title">Basic CRM</h3>
                     <p class="editable" data-field="proj2Desc">A front-end single-page dashboard designed for tracking session statistics, progress notes, and media records cleanly hosted via GitHub Pages.</p>
-                    <a href="https://lead-crm-wug0.onrender.com/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Live Demo</a>
+                    <a href="https://lead-crm-wug0.onrender.com/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" target="_blank">Live Demo</a>
                 </div>
 
                 <!-- Project 3 -->
                 <div class="project-card">
                     <h3 class="editable" data-field="proj3Title">Space Weather Research</h3>
                     <p class="editable" data-field="proj3Desc">The website represents about the Space Weather Research</p>
-                    <a href="https://tushar-tb2.github.io/swr/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Live Demo</a>
+                    <a href="https://tushar-tb2.github.io/swr/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" target="_blank">Live Demo</a>
                 </div>
 
                 <!-- Project 4 -->
                 <div class="project-card">
                     <h3 class="editable" data-field="proj4Title">Monthly Newsletter Generator</h3>
                     <p class="editable" data-field="proj4Desc">The website helps to build monthly reports</p>
-                    <a href="https://tb2msslmonthlyreportgenerator.netlify.app/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Live Demo</a>
+                    <a href="https://tb2msslmonthlyreportgenerator.netlify.app/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" target="_blank">Live Demo</a>
                 </div> 
             </div>
             <button class="ai-btn" style="margin-top: 1.5rem;" onclick="triggerAI('projects')">✨ AI Enhance All Projects</button>
@@ -336,7 +336,7 @@
             }
         }
 
-        // Simulated AI Generator Integration
+        // AI Generator Integration with Detailed Project Write-ups
         function triggerAI(sectionType) {
             if (sectionType === 'hero') {
                 document.getElementById('hero-title').innerHTML = "Hi, I'm <span>Full-Stack Engineer</span>";
@@ -344,20 +344,23 @@
             } else if (sectionType === 'about') {
                 document.getElementById('about-text').innerText = "Passionate software engineer with a strong academic and practical background in full-stack development, Python backend services, and relational data management. Adept at building robust utilities, custom tracking systems, and efficient deployment pipelines.";
             } else if (sectionType === 'projects') {
-                // Automatically enhance all project descriptions with impact-driven text
+                // Project 1: Orbis CRM Web App
                 document.querySelector('[data-field="proj1Desc"]').innerText = 
-                    "An advanced full-stack CRM featuring secure user authentication, responsive data grids, and streamlined backend workflows built with Python and Flask.";
+                    "A robust full-stack CRM web application built using Python, Flask, and SQLite. Features secure user authentication, interactive data entry grids, and clean dashboard layouts designed to streamline client tracking.";
                 
+                // Project 2: Basic CRM
                 document.querySelector('[data-field="proj2Desc"]').innerText = 
-                    "A lightweight, lightning-fast single-page interface tailored for seamless session tracking, structured progress logging, and efficient media management.";
+                    "A lightweight, high-performance single-page dashboard optimized for tracking session statistics, maintaining structured progress notes, and organizing media records cleanly.";
                 
+                // Project 3: Space Weather Research
                 document.querySelector('[data-field="proj3Desc"]').innerText = 
-                    "An interactive research web platform designed to visualize space weather phenomena, solar data metrics, and atmospheric telemetry clearly.";
+                    "An interactive scientific web platform designed to translate complex space weather phenomena, solar data metrics, and atmospheric telemetry into accessible visual insights.";
                 
+                // Project 4: Monthly Newsletter Generator
                 document.querySelector('[data-field="proj4Desc"]').innerText = 
-                    "A productivity utility web app that automates monthly report structuring, content layout generation, and streamlined document exporting.";
+                    "A productivity-focused web utility that automates monthly report structuring, simplifies recurring content generation, and streamlines document exporting.";
 
-                alert("✨ AI successfully enhanced all project descriptions with professional impact highlights!");
+                alert("✨ AI successfully enhanced all project descriptions with professional project write-ups!");
             }
         }
     </script>
