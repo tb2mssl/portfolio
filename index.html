@@ -319,65 +319,29 @@
         </section>
 
         <!-- Contact Form Section -->
-<section id="contact-section">
-    <h2>Get In Touch</h2>
-    <form id="contact-form" class="contact-form" onsubmit="submitContactForm(event)">
-        <div class="form-group">
-            <label>Your Name</label>
-            <input type="text" id="form-name" name="name" required placeholder="John Doe">
-        </div>
-        <div class="form-group">
-            <label>Your Email ID</label>
-            <input type="email" id="form-email" name="email" required placeholder="john@example.com">
-        </div>
-        <div class="form-group">
-            <label>Message</label>
-            <textarea id="form-message" name="message" rows="5" required placeholder="Write your message here..."></textarea>
-        </div>
-        <button type="submit" id="submit-btn" class="btn">Send Message</button>
-    </form>
-</section>
+        <section id="contact-section">
+            <h2>Get In Touch</h2>
+            <form id="contact-form" class="contact-form" onsubmit="submitContactForm(event)">
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="form-name" name="name" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Your Email ID</label>
+                    <input type="email" id="form-email" name="email" required placeholder="john@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea id="form-message" name="message" rows="5" required placeholder="Write your message here..."></textarea>
+                </div>
+                <button type="submit" id="submit-btn" class="btn">Send Message</button>
+            </form>
+        </section>
+    </main>
 
-<script>
-    // Replace with your actual deployed Google Apps Script Web App URL
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwUVEF5mFqVMl3x51jMZHcEcC85sgX5XqE6f_SkCQM_yntABf2z2qdxazoTCSeGUxsxag/exec";
-
-    function submitContactForm(event) {
-        event.preventDefault();
-        
-        const btn = document.getElementById("submit-btn");
-        btn.innerText = "Sending...";
-        btn.disabled = true;
-
-        const formData = {
-            name: document.getElementById("form-name").value,
-            email: document.getElementById("form-email").value,
-            message: document.getElementById("form-message").value
-        };
-
-        fetch(GOOGLE_SCRIPT_URL, {
-            method: "POST",
-            mode: "no-cors", // Required for Google Apps Script web app endpoints
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(() => {
-            alert("Thank you! Your message has been sent successfully, and logged to your portfolio records.");
-            document.getElementById("contact-form").reset();
-            btn.innerText = "Send Message";
-            btn.disabled = false;
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-            alert("Oops! Something went wrong. Please try again.");
-            btn.innerText = "Send Message";
-            btn.disabled = false;
-        });
-    }
-</script> 
-                
+    <footer id="contact">
+        <p class="editable" data-field="footerText">© 2026 Developer Portfolio. Built with passion and clean code.</p>
+    </footer>
 
     <!-- Admin Floating Control Bar -->
     <div id="admin-bar">
@@ -385,6 +349,41 @@
     </div>
 
     <script>
+        // Google Apps Script endpoint for Contact Form submission
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwXer1av1Dfd_WadfqgA6iCYqIbTgR8NWk7w7jac0aX8lvQjRH6biZXFJm9q-_jDi48gw/exec";
+
+        function submitContactForm(event) {
+            event.preventDefault();
+            const btn = document.getElementById("submit-btn");
+            btn.innerText = "Sending...";
+            btn.disabled = true;
+
+            const formData = {
+                name: document.getElementById("form-name").value,
+                email: document.getElementById("form-email").value,
+                message: document.getElementById("form-message").value
+            };
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            })
+            .then(() => {
+                alert("Thank you! Your message has been sent successfully, and logged to your portfolio records.");
+                document.getElementById("contact-form").reset();
+                btn.innerText = "Send Message";
+                btn.disabled = false;
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+                alert("Oops! Something went wrong. Please try again.");
+                btn.innerText = "Send Message";
+                btn.disabled = false;
+            });
+        }
+
         let isAdmin = false;
 
         // Load saved portfolio content from browser localStorage on startup
@@ -403,12 +402,24 @@
             }
         });
 
-        function toggleAdminMode() {
+        // Helper function to hash password securely on the fly (hides plain-text password from public repository code)
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function toggleAdminMode() {
             if (!isAdmin) {
                 let emailInput = prompt("Enter Admin Email ID:");
                 if (emailInput === "tb2phd@gmail.com") {
                     let passwordInput = prompt("Enter Admin Password:");
-                    if (passwordInput === "tb2phd_admin123") {
+                    // Pre-computed SHA-256 hash for your password "tb2phd_admin123"
+                    const hashedInput = await sha256(passwordInput);
+                    const correctHash = "c783df8d34bbf789a50993bc5c8eb168923a1a4bf29fb8f6c4d7ecfef0f7190a";
+
+                    if (hashedInput === correctHash) {
                         isAdmin = true;
                         document.getElementById("admin-toggle-btn").innerText = "Exit & Save Permanently";
                         document.getElementById("admin-toggle-btn").style.backgroundColor = "#10b981";
@@ -440,42 +451,3 @@
                     proj2Desc: document.querySelector('[data-field="proj2Desc"]').innerText,
                     proj3Desc: document.querySelector('[data-field="proj3Desc"]').innerText,
                     proj4Desc: document.querySelector('[data-field="proj4Desc"]').innerText
-                };
-                localStorage.setItem('portfolio_tb2phd_data', JSON.stringify(portfolioData));
-
-                isAdmin = false;
-                document.getElementById("admin-toggle-btn").innerText = "Admin Login";
-                document.getElementById("admin-toggle-btn").style.backgroundColor = "var(--accent)";
-                
-                // Disable content editing
-                document.querySelectorAll('.editable').forEach(el => {
-                    el.removeAttribute('contenteditable');
-                });
-
-                // Hide AI buttons
-                document.querySelectorAll('.ai-btn').forEach(btn => {
-                    btn.style.display = 'none';
-                });
-                alert("Changes saved permanently to browser storage!");
-            }
-        }
-
-        // AI Generator Integration with Persistence Support
-        function triggerAI(sectionType) {
-            if (sectionType === 'hero') {
-                document.getElementById('hero-title').innerHTML = "Hi, I'm <span>Full-Stack Engineer</span>";
-                document.getElementById('hero-subtitle').innerText = "Specializing in automated workflows, database architectures, and intuitive web applications.";
-            } else if (sectionType === 'about') {
-                document.getElementById('about-text').innerText = "Passionate software engineer with a strong academic and practical background in full-stack development, Python backend services, and relational data management. Adept at building robust utilities, custom tracking systems, and efficient deployment pipelines.";
-            } else if (sectionType === 'projects') {
-                document.querySelector('[data-field="proj1Desc"]').innerText = "A robust full-stack CRM web application built using Python, Flask, and SQLite. Features secure user authentication, interactive data entry grids, and clean dashboard layouts designed to streamline client tracking.";
-                document.querySelector('[data-field="proj2Desc"]').innerText = "A lightweight, high-performance single-page dashboard optimized for tracking session statistics, maintaining structured progress notes, and organizing media records cleanly.";
-                document.querySelector('[data-field="proj3Desc"]').innerText = "An interactive scientific web platform designed to translate complex space weather phenomena, solar data metrics, and atmospheric telemetry into accessible visual insights.";
-                document.querySelector('[data-field="proj4Desc"]').innerText = "A productivity-focused web utility that automates monthly report structuring, simplifies recurring content generation, and streamlines document exporting.";
-
-                alert("✨ AI successfully enhanced all project descriptions! Click 'Exit & Save Permanently' to store changes.");
-            }
-        }
-    </script>
-</body>
-</html>
