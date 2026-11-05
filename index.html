@@ -1,344 +1,212 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio of Tushar Bhatt: software developer building full-stack web applications with Python, Flask and JavaScript.">
     <title>Tushar Bhatt Portfolio</title>
+    <script>
+        // Apply the saved Black/White theme before first paint to avoid a flash
+        try { document.documentElement.dataset.theme = localStorage.getItem('portfolio_theme') || 'dark'; } catch (e) {}
+    </script>
     <style>
         :root {
+            color-scheme: dark;
             --bg-color: #0f172a;
             --card-bg: #1e293b;
+            --header-bg: rgba(15, 23, 42, 0.95);
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
             --accent: #38bdf8;
             --accent-hover: #0ea5e9;
+            --btn-text: #0f172a;
             --border: #334155;
+            --danger: #ef4444;
+        }
+        [data-theme="light"] {
+            color-scheme: light;
+            --bg-color: #ffffff;
+            --card-bg: #f1f5f9;
+            --header-bg: rgba(255, 255, 255, 0.95);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --accent: #0369a1;
+            --accent-hover: #075985;
+            --btn-text: #ffffff;
+            --border: #cbd5e1;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            line-height: 1.6;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; transition: background-color .3s, color .3s; }
 
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 5%;
-            background-color: rgba(15, 23, 42, 0.9);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .5rem;
+            padding: 1rem 5%; background-color: var(--header-bg);
+            position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border);
         }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--accent);
-        }
-
-        nav a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            margin-left: 2rem;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: var(--accent);
-        }
-
-        .hero {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 8rem 2rem 5rem 2rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .hero h1 span {
-            color: var(--accent);
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-        }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--accent); }
+        .header-right { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
+        nav a { color: var(--text-secondary); text-decoration: none; margin-left: 1.5rem; transition: color .3s; }
+        nav a:first-child { margin-left: 0; }
+        nav a:hover { color: var(--accent); }
 
         .btn {
-            background-color: var(--accent);
-            color: var(--bg-color);
-            padding: 0.75rem 1.5rem;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s;
-            border: none;
-            cursor: pointer;
+            display: inline-block; background-color: var(--accent); color: var(--btn-text);
+            padding: .75rem 1.5rem; border-radius: 5px; text-decoration: none; font-weight: bold;
+            transition: background-color .3s; border: 1px solid var(--accent); cursor: pointer; font-size: 1rem;
         }
+        .btn:hover { background-color: var(--accent-hover); border-color: var(--accent-hover); }
+        .btn:disabled { opacity: .6; cursor: not-allowed; }
+        .btn-sm { padding: .4rem .8rem; font-size: .85rem; }
+        .btn-outline { background: transparent; color: var(--accent); }
+        .btn-outline:hover { background: var(--accent); color: var(--btn-text); }
+        .btn-danger { background: var(--danger); border-color: var(--danger); color: #fff; }
+        .btn-danger:hover { background: #dc2626; border-color: #dc2626; }
 
-        .btn:hover {
-            background-color: var(--accent-hover);
+        .hero {
+            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+            padding: 8rem 2rem 5rem; max-width: 800px; margin: 0 auto;
         }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero h1 span { color: var(--accent); }
+        .hero p { font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 2rem; }
 
-        section {
-            padding: 5rem 10%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+        section { padding: 5rem 10%; max-width: 1200px; margin: 0 auto; scroll-margin-top: 80px; }
+        section h2 { font-size: 2rem; margin-bottom: 2rem; border-bottom: 2px solid var(--border); padding-bottom: .5rem; }
+        .about-content { font-size: 1.1rem; color: var(--text-secondary); }
 
-        section h2 {
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 0.5rem;
-        }
-
-        .about-content {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
         .project-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.5rem;
-            transition: transform 0.3s;
+            background-color: var(--card-bg); border: 1px solid var(--border); border-radius: 8px;
+            padding: 1.5rem; transition: transform .3s; display: flex; flex-direction: column; align-items: flex-start;
         }
+        .project-card:hover { transform: translateY(-5px); }
+        .project-card h3 { margin-bottom: .75rem; }
+        .project-card p { color: var(--text-secondary); margin-bottom: 1rem; font-size: .95rem; }
+        .tag-row { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1.25rem; }
+        .mini-tag { font-size: .75rem; padding: .15rem .55rem; border: 1px solid var(--border); border-radius: 999px; color: var(--text-secondary); }
+        .project-card .btn { margin-top: auto; }
+        .admin-tools { display: flex; gap: .5rem; width: 100%; margin-top: 1rem; }
+        .admin-tools .url-input { flex: 1; min-width: 0; }
 
-        .project-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .project-card h3 {
-            margin-bottom: 0.75rem;
-        }
-
-        .project-card p {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-        }
-
-        .skills-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
+        .skills-list { display: flex; flex-wrap: wrap; gap: 1rem; }
         .skill-tag {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border);
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            color: var(--accent);
+            background-color: var(--card-bg); border: 1px solid var(--border); padding: .5rem 1rem;
+            border-radius: 4px; font-size: .9rem; color: var(--accent); display: flex; align-items: center; gap: .5rem;
         }
+        .tag-x { background: none; border: none; color: var(--danger); font-size: 1.1rem; line-height: 1; cursor: pointer; }
+        .skill-add { display: flex; gap: .5rem; margin-top: 1.5rem; max-width: 460px; }
+        .skill-add input { flex: 1; }
+        .section-tools { margin-bottom: 1.5rem; }
 
-        /* Contact Form Styles */
+        .field {
+            padding: .75rem; background: var(--bg-color); border: 1px solid var(--border);
+            border-radius: 5px; color: var(--text-primary); font-size: 1rem; width: 100%;
+        }
+        .field:focus { outline: 2px solid var(--accent); border-color: var(--accent); }
         .contact-form {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border);
-            padding: 2.5rem;
-            border-radius: 8px;
-            max-width: 600px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
+            background-color: var(--card-bg); border: 1px solid var(--border); padding: 2.5rem;
+            border-radius: 8px; max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.25rem;
         }
+        .form-group { display: flex; flex-direction: column; text-align: left; }
+        .form-group label, dialog label { margin-bottom: .4rem; font-weight: 500; color: var(--text-secondary); display: block; }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-        }
+        footer { text-align: center; padding: 3rem; border-top: 1px solid var(--border); color: var(--text-secondary); }
 
-        .form-group label {
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-        }
-
-        .form-group input, .form-group textarea {
-            padding: 0.75rem;
-            background: var(--bg-color);
-            border: 1px solid var(--border);
-            border-radius: 5px;
-            color: var(--text-primary);
-            font-size: 1rem;
-        }
-
-        footer {
-            text-align: center;
-            padding: 3rem;
-            border-top: 1px solid var(--border);
-            color: var(--text-secondary);
-        }
-
-        /* Admin & AI Controls Bar */
         #admin-bar {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            padding: 10px 15px;
-            border-radius: 8px;
-            z-index: 1000;
-            display: flex;
-            gap: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            position: fixed; bottom: 20px; right: 20px; background: var(--card-bg); border: 1px solid var(--border);
+            padding: 10px 15px; border-radius: 8px; z-index: 1000; display: flex; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,.3);
         }
+        body:not(.is-admin) .admin-only { display: none !important; }
+        body.is-admin #admin-login-btn { display: none; }
 
-        /* Editable Highlight styles in Admin Mode */
-        .editable[contenteditable="true"] {
-            outline: 2px dashed var(--accent);
-            padding: 4px;
-            background: rgba(56, 189, 248, 0.05);
-        }
+        .editable[contenteditable="true"] { outline: 2px dashed var(--accent); padding: 4px; background: rgba(56,189,248,.06); }
 
-        .ai-btn {
-            background-color: #10b981;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: bold;
-            display: none;
+        dialog {
+            background: var(--card-bg); color: var(--text-primary); border: 1px solid var(--border);
+            border-radius: 8px; padding: 1.75rem; width: min(460px, 92vw); margin: auto;
         }
-        
-        .ai-btn:hover { background-color: #059669; }
+        dialog::backdrop { background: rgba(0,0,0,.6); }
+        dialog h3 { margin-bottom: 1rem; }
+        dialog .field { margin-bottom: 1rem; }
+        .dialog-actions { display: flex; justify-content: flex-end; gap: .75rem; }
+        .form-error { color: var(--danger); min-height: 1.4em; font-size: .9rem; margin-bottom: .5rem; }
+
+        #toast {
+            position: fixed; left: 50%; bottom: 90px; transform: translateX(-50%); background: var(--accent);
+            color: var(--btn-text); padding: .6rem 1.2rem; border-radius: 6px; font-weight: 600; z-index: 2000;
+            opacity: 0; pointer-events: none; transition: opacity .3s; max-width: 90vw; text-align: center;
+        }
+        #toast.show { opacity: 1; }
+
+        @media (max-width: 640px) {
+            nav a { margin-left: 1rem; }
+            .hero { padding-top: 5rem; }
+            .hero h1 { font-size: 2.2rem; }
+            section { padding: 3rem 5%; }
+            .contact-form { padding: 1.5rem; }
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo editable" id="logo-text" data-field="logo">Tushar Bhatt Portfolio</div>
-        <nav>
-            <a href="#about">About</a>
-            <a href="#projects">Projects</a>
-            <a href="#skills">Skills</a>
-            <a href="#contact-section">Contact</a>
-        </nav>
+        <div class="logo editable" data-field="logo" data-single="1">Tushar Bhatt Portfolio</div>
+        <div class="header-right">
+            <nav>
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#skills">Skills</a>
+                <a href="#contact-section">Contact</a>
+            </nav>
+            <button type="button" class="btn btn-sm btn-outline" id="theme-btn" aria-label="Switch between black and white theme">☀ White</button>
+        </div>
     </header>
 
     <main>
-        <!-- Hero Section -->
         <section class="hero">
-            <h1 id="hero-title" class="editable" data-field="heroTitle">Hi, I'm <span>Software Developer</span></h1>
-            <p id="hero-subtitle" class="editable" data-field="heroSubtitle">Building scalable web applications, robust backends, and data-driven solutions with Python, Flask, and JavaScript.</p>
-            <button class="ai-btn" onclick="triggerAI('hero')">✨ AI Write Hero</button>
-            <a href="#projects" class="btn" style="margin-top: 1rem;">View My Work</a>
+            <h1>Hi, I'm <span class="editable" data-field="heroName" data-single="1">Tushar Bhatt</span></h1>
+            <p class="editable" data-field="heroSubtitle">Software Developer building scalable web applications, robust backends, and data-driven solutions with Python, Flask, and JavaScript.</p>
+            <a href="#projects" class="btn">View My Work</a>
         </section>
 
-        <!-- About Section -->
         <section id="about">
             <h2>About Me</h2>
-            <div id="about-text" class="about-content editable" data-field="aboutText">
-                I am a dedicated software developer experienced in building full-stack applications, managing relational databases, and automating data pipelines. My primary toolchain includes Python, Flask, SQLite, PostgreSQL, HTML/CSS, and JavaScript. I love turning complex technical challenges into clean, efficient web applications.
-            </div>
-            <button class="ai-btn" style="margin-top: 1rem;" onclick="triggerAI('about')">✨ AI Write About</button>
+            <div class="about-content editable" data-field="aboutText">I am a dedicated software developer experienced in building full-stack applications, managing relational databases, and automating data pipelines. My primary toolchain includes Python, Flask, SQLite, PostgreSQL, HTML/CSS, and JavaScript. I love turning complex technical challenges into clean, efficient web applications.</div>
         </section>
 
-        <!-- Projects Section -->
         <section id="projects">
             <h2>Featured Projects</h2>
-            <div class="projects-grid">
-                <!-- Project 1 -->
-                <div class="project-card">
-                    <h3 class="editable" data-field="proj1Title">Orbis CRM Web App</h3>
-                    <p class="editable" data-field="proj1Desc">A full-stack customer relationship management tool built using Python, Flask, and SQLite. Features user authentication, dynamic data entry tables, and clean dashboard layouts.</p>
-                    <a href="https://tb2msslintcrm1.netlify.app/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" target="_blank">Live Demo</a>
-                 </div>
-                 
-                <!-- Project 2 -->
-                <div class="project-card">
-                    <h3 class="editable" data-field="proj2Title">Basic CRM</h3>
-                    <p class="editable" data-field="proj2Desc">A front-end single-page dashboard designed for tracking session statistics, progress notes, and media records cleanly hosted via GitHub Pages. Please enter userbane : welcomeuser password: welcomeuser123 for live demo.</p>
-                    <a href="https://lead-crm-wug0.onrender.com/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" target="_blank">Live Demo</a>
-                </div>
-
-                <!-- Project 3 -->
-                <div class="project-card">
-                    <h3 class="editable" data-field="proj3Title">Space Weather Research</h3>
-                    <p class="editable" data-field="proj3Desc">An interactive scientific web platform designed to translate complex space weather phenomena, solar data metrics, and atmospheric telemetry into accessible visual insights.</p>
-                    <a href="https://tushar-tb2.github.io/swr/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" target="_blank">Live Demo</a>
-                </div>
-
-                <!-- Project 4 -->
-                <div class="project-card">
-                    <h3 class="editable" data-field="proj4Title">Monthly Newsletter Generator</h3>
-                    <p class="editable" data-field="proj4Desc">A productivity-focused web utility that automates monthly report structuring, simplifies recurring content generation, and streamlines document exporting.</p>
-                    <a href="https://tb2msslmonthlyreportgenerator.netlify.app/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" target="_blank">Live Demo</a>
-                </div> 
-                <!-- Project 5 -->
-                <div class="project-card">
-                    <h3 class="editable" data-field="proj3Title"> LIC vs All Investments</h3>
-                    <p class="editable" data-field="proj3Desc">An interactive financial simulation tool that compares long-term wealth accumulation across LIC policies, Bank FDs, Mutual Funds, Gold, RBI Bonds, and Post Office schemes. Features customizable tax brackets, monthly contributions, and inflation adjustments, highlighting capital safety under Section 37 and tax exemptions under Section 10(10D).</p>
-                    <a href="https://lic-safe.github.io/emergency_investment/" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" target="_blank">Live Demo</a>
-                </div>
+            <div class="section-tools admin-only">
+                <button type="button" class="btn" id="add-project-btn">＋ Add Project</button>
             </div>
-            <button class="ai-btn" style="margin-top: 1.5rem;" onclick="triggerAI('projects')">✨ AI Enhance All Projects</button>
+            <div class="projects-grid" id="projects-grid"></div>
         </section>
 
-        <!-- Skills Section -->
         <section id="skills">
-            <h2>Tech Stack & Skills</h2>
-            <div class="skills-list">
-                <div class="skill-tag">Python</div>
-                <div class="skill-tag">Flask</div>
-                <div class="skill-tag">JavaScript</div>
-                <div class="skill-tag">HTML5 / CSS3</div>
-                <div class="skill-tag">SQLite & PostgreSQL</div>
-                <div class="skill-tag">Git & GitHub</div>
-                <div class="skill-tag">VS Code</div>
-                <div class="skill-tag">Jupyter Notebooks</div>
+            <h2>Tech Stack &amp; Skills</h2>
+            <div class="skills-list" id="skills-list"></div>
+            <div class="skill-add admin-only">
+                <input type="text" class="field" id="new-skill" maxlength="60" placeholder="Add a skill, e.g. Docker" aria-label="New skill">
+                <button type="button" class="btn" id="add-skill-btn">Add</button>
             </div>
         </section>
 
-        <!-- Contact Form Section -->
         <section id="contact-section">
             <h2>Get In Touch</h2>
-            <form id="contact-form" class="contact-form" onsubmit="submitContactForm(event)">
+            <form id="contact-form" class="contact-form">
                 <div class="form-group">
-                    <label>Your Name</label>
-                    <input type="text" id="form-name" name="name" required placeholder="John Doe">
+                    <label for="form-name">Your Name</label>
+                    <input class="field" type="text" id="form-name" name="name" required placeholder="John Doe">
                 </div>
                 <div class="form-group">
-                    <label>Your Email ID</label>
-                    <input type="email" id="form-email" name="email" required placeholder="john@example.com">
+                    <label for="form-email">Your Email ID</label>
+                    <input class="field" type="email" id="form-email" name="email" required placeholder="john@example.com">
                 </div>
                 <div class="form-group">
-                    <label>Message</label>
-                    <textarea id="form-message" name="message" rows="5" required placeholder="Write your message here..."></textarea>
+                    <label for="form-message">Message</label>
+                    <textarea class="field" id="form-message" name="message" rows="5" required placeholder="Write your message here..."></textarea>
                 </div>
                 <button type="submit" id="submit-btn" class="btn">Send Message</button>
             </form>
@@ -349,144 +217,393 @@
         <p class="editable" data-field="footerText">© 2026 Tushar Bhatt Portfolio. Built with passion and clean code.</p>
     </footer>
 
-    <!-- Admin Floating Control Bar -->
     <div id="admin-bar">
-        <button class="btn" id="admin-toggle-btn" onclick="toggleAdminMode()" style="padding: 5px 10px; font-size: 0.85rem;">Admin Login</button>
+        <button type="button" class="btn btn-sm" id="admin-login-btn">Admin Login</button>
+        <button type="button" class="btn btn-sm admin-only" id="save-btn">Save to Server</button>
+        <button type="button" class="btn btn-sm btn-outline admin-only" id="logout-btn">Logout</button>
     </div>
 
-    <!-- Unified and Corrected Script Block -->
+    <dialog id="login-dialog">
+        <form id="login-form">
+            <h3>Admin Login</h3>
+            <label for="admin-email">Admin Email ID</label>
+            <input class="field" type="email" id="admin-email" autocomplete="username" required>
+            <label for="admin-password">Password</label>
+            <input class="field" type="password" id="admin-password" autocomplete="current-password" required>
+            <p class="form-error" id="login-error" role="alert"></p>
+            <div class="dialog-actions">
+                <button type="button" class="btn btn-outline" data-close>Cancel</button>
+                <button type="submit" class="btn" id="login-submit">Log in</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog id="project-dialog">
+        <form id="project-form">
+            <h3>Add Project</h3>
+            <label for="np-title">Project title</label>
+            <input class="field" type="text" id="np-title" maxlength="120" required>
+            <label for="np-desc">Description</label>
+            <textarea class="field" id="np-desc" rows="4" maxlength="1500" required></textarea>
+            <label for="np-url">Live Demo link</label>
+            <input class="field" type="url" id="np-url" placeholder="https://example.com">
+            <label for="np-tags">Tech tags (comma separated, optional)</label>
+            <input class="field" type="text" id="np-tags" placeholder="Python, Flask, SQLite">
+            <p class="form-error" id="project-error" role="alert"></p>
+            <div class="dialog-actions">
+                <button type="button" class="btn btn-outline" data-close>Cancel</button>
+                <button type="submit" class="btn">Add &amp; Save</button>
+            </div>
+        </form>
+    </dialog>
+
+    <div id="toast" role="status" aria-live="polite"></div>
+
     <script>
-        // Google Apps Script Web App URL
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx0vr35dSHTIbuQWI4MjmM7bGyrys9MSmS71DigodnD4QfZMcGNLzVH5TxvdgAeitZVUg/exec";
+        // ====== CONFIGURATION ======
+        // Existing Google Apps Script used by the contact form (unchanged behaviour).
+        const CONTACT_URL = "https://script.google.com/macros/s/AKfycbx0vr35dSHTIbuQWI4MjmM7bGyrys9MSmS71DigodnD4QfZMcGNLzVH5TxvdgAeitZVUg/exec";
+        // Paste the Web app URL of the new backend (Code.gs) here to turn on admin login + server storage.
+        const API_URL = "https://script.google.com/macros/s/AKfycbwej68WX9KoZY4idX-FFPUr63pieQ1w2Go5XjZ2Fxd390YXR72Al8fSDwbx-V9jBZ97/exec";
 
-        function submitContactForm(event) {
-            event.preventDefault();
-            
-            const btn = document.getElementById("submit-btn");
-            btn.innerText = "Sending...";
-            btn.disabled = true;
-
-            const formData = {
-                name: document.getElementById("form-name").value,
-                email: document.getElementById("form-email").value,
-                message: document.getElementById("form-message").value
-            };
-
-            fetch(GOOGLE_SCRIPT_URL, {
-                method: "POST",
-                mode: "no-cors",
-                headers: {
-                    "Content-Type": "text/plain;charset=utf-8",
+        // ====== DEFAULT CONTENT (shown until the server returns saved content) ======
+        const DEFAULT_DATA = {
+            fields: {
+                logo: "Tushar Bhatt Portfolio",
+                heroName: "Tushar Bhatt",
+                heroSubtitle: "Software Developer building scalable web applications, robust backends, and data-driven solutions with Python, Flask, and JavaScript.",
+                aboutText: "I am a dedicated software developer experienced in building full-stack applications, managing relational databases, and automating data pipelines. My primary toolchain includes Python, Flask, SQLite, PostgreSQL, HTML/CSS, and JavaScript. I love turning complex technical challenges into clean, efficient web applications.",
+                footerText: "© 2026 Tushar Bhatt Portfolio. Built with passion and clean code."
+            },
+            projects: [
+                {
+                    id: "p1",
+                    title: "OrbisCRM Enterprise – International CRM & BI Platform",
+                    desc: "An international CRM and business-intelligence platform built around a 27-table PostgreSQL schema, with 100 demo leads across 22 countries. It includes 14 live charts, an interactive world map with country-to-city drill-down, a drag-and-drop sales pipeline, follow-up alerts, Excel/CSV import and export, six-tier role-based access with approval workflows, and a 33-point self-test suite.",
+                    url: "https://tb2msslintcrm1.netlify.app/",
+                    tags: ["PostgreSQL", "JavaScript", "Data Visualization", "GIS", "RBAC"]
                 },
-                body: JSON.stringify(formData)
-            })
-            .then(() => {
-                alert("Thank you! Your message has been sent successfully.");
-                document.getElementById("contact-form").reset();
-                btn.innerText = "Send Message";
-                btn.disabled = false;
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-                alert("Oops! Something went wrong. Please try again.");
-                btn.innerText = "Send Message";
-                btn.disabled = false;
+                {
+                    id: "p2",
+                    title: "Lead CRM",
+                    desc: "A lead-management CRM built with Python, Flask, and SQLite and hosted on Render. It has secure login with admin-controlled users, a leads dashboard with charts and filters, Excel download, and a dark/light theme switch. Demo login: username \"welcomeuser\", password \"welcomeuser123\". If the app has been idle it may take a moment to wake up.",
+                    url: "https://lead-crm-wug0.onrender.com/",
+                    tags: ["Python", "Flask", "SQLite", "Authentication"]
+                },
+                {
+                    id: "p3",
+                    title: "Space Weather Research (SWR)",
+                    desc: "A curated research hub for Solar Physics and Space Weather. It gathers source-data catalogs for flares, CMEs, SEPs and radio bursts, real-time heliophysics data portals, forecasting tools, event catalogues, software and coding resources, conferences, schools and funding, and research-paper writing tools, all in one place.",
+                    url: "https://tushar-tb2.github.io/swr/",
+                    tags: ["HTML/CSS", "Data Curation", "GitHub Pages"]
+                },
+                {
+                    id: "p4",
+                    title: "Robotics Monthly Report Builder",
+                    desc: "A form-driven report generator for school robotics classes. Enter class details, upload a watermark logo and four action photos, write a three-paragraph story and an invention story, and get a formatted monthly progress report with a live preview, ready to print or save as PDF. A second layout is available on the site.",
+                    url: "https://tb2msslmonthlyreportgenerator.netlify.app/",
+                    tags: ["JavaScript", "PDF / Print", "Image Upload"]
+                },
+                {
+                    id: "p5",
+                    title: "LIC vs All Investments – Wealth & Tax Simulator",
+                    desc: "An interactive simulator comparing LIC plans with Bank FDs, Mutual Funds/Stocks, Gold, Govt/RBI Bonds and Post Office schemes. Adjust the tax slab (10/20/30%), inflation, monthly investment, duration and expected yields to see total principal, nominal corpus and inflation-adjusted real value. It also has an LIC plan advisor chat and a request form for a customised proposal.",
+                    url: "https://lic-safe.github.io/emergency_investment/",
+                    tags: ["JavaScript", "Financial Modeling", "GitHub Pages"]
+                }
+            ],
+            skills: [
+                "Python", "Flask", "JavaScript", "HTML5 / CSS3", "SQLite", "PostgreSQL",
+                "REST APIs & Google Apps Script", "Authentication & Role-Based Access",
+                "Data Visualization & Dashboards", "Interactive Maps (GIS)", "Excel / CSV Import & Export",
+                "Email (SMTP) Integration", "PDF / Print Reports", "Responsive Web Design",
+                "Git & GitHub", "Netlify / Render / GitHub Pages Deployment", "VS Code", "Jupyter Notebooks"
+            ]
+        };
+
+        let DATA = JSON.parse(JSON.stringify(DEFAULT_DATA));
+        let adminToken = null;
+
+        // ====== HELPERS ======
+        const $ = (id) => document.getElementById(id);
+        function el(tag, cls, text) {
+            const e = document.createElement(tag);
+            if (cls) e.className = cls;
+            if (text !== undefined) e.textContent = text;
+            return e;
+        }
+        function safeUrl(u) {
+            try {
+                const x = new URL(String(u).trim());
+                return (x.protocol === 'https:' || x.protocol === 'http:') ? x.href : '';
+            } catch (e) { return ''; }
+        }
+        let toastTimer;
+        function toast(msg) {
+            const t = $('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
+        }
+        async function api(payload) {
+            const r = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload)
             });
+            return r.json();
         }
 
-        let isAdmin = false;
-
-        // Load saved portfolio content from browser localStorage on startup
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedData = localStorage.getItem('portfolio_tb2phd_data');
-            if (savedData) {
-                const data = JSON.parse(savedData);
-                if (data.heroTitle) document.getElementById('hero-title').innerHTML = data.heroTitle;
-                if (data.heroSubtitle) document.getElementById('hero-subtitle').innerText = data.heroSubtitle;
-                if (data.aboutText) document.getElementById('about-text').innerText = data.aboutText;
-                if (data.logo) document.getElementById('logo-text').innerText = data.logo;
-                if (data.proj1Desc) document.querySelector('[data-field="proj1Desc"]').innerText = data.proj1Desc;
-                if (data.proj2Desc) document.querySelector('[data-field="proj2Desc"]').innerText = data.proj2Desc;
-                if (data.proj3Desc) document.querySelector('[data-field="proj3Desc"]').innerText = data.proj3Desc;
-                if (data.proj4Desc) document.querySelector('[data-field="proj4Desc"]').innerText = data.proj4Desc;
-            }
+        // ====== THEME (Black / White) ======
+        function applyTheme(t) {
+            document.documentElement.dataset.theme = t;
+            $('theme-btn').textContent = t === 'dark' ? '☀ White' : '🌙 Black';
+            try { localStorage.setItem('portfolio_theme', t); } catch (e) {}
+        }
+        $('theme-btn').addEventListener('click', () => {
+            applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
         });
 
-        function toggleAdminMode() {
-            if (!isAdmin) {
-                let emailInput = prompt("Enter Admin Email ID:");
-                if (emailInput === "tb2phd@gmail.com") {
-                    let passwordInput = prompt("Enter Admin Password:");
-                    
-                    // Direct password check to prevent hashing mismatch errors
-                    if (passwordInput === "tb2phd_admin123") {
-                        isAdmin = true;
-                        document.getElementById("admin-toggle-btn").innerText = "Exit & Save Permanently";
-                        document.getElementById("admin-toggle-btn").style.backgroundColor = "#10b981";
-                        
-                        // Enable content editing
-                        document.querySelectorAll('.editable').forEach(el => {
-                            el.setAttribute('contenteditable', 'true');
-                        });
-
-                        // Show AI buttons
-                        document.querySelectorAll('.ai-btn').forEach(btn => {
-                            btn.style.display = 'inline-block';
-                        });
-                        alert("Welcome back! Admin access granted.");
-                    } else {
-                        alert("Incorrect password.");
-                    }
-                } else if (emailInput !== null) {
-                    alert("Access Denied: Unauthorized email address.");
+        // ====== RENDERING ======
+        function applyFields() {
+            document.querySelectorAll('[data-field]').forEach(e => {
+                const v = DATA.fields[e.dataset.field];
+                if (typeof v === 'string') e.textContent = v;
+            });
+        }
+        function applyEditable() {
+            const on = !!adminToken;
+            document.querySelectorAll('.editable').forEach(e => {
+                if (on) e.setAttribute('contenteditable', 'true'); else e.removeAttribute('contenteditable');
+            });
+        }
+        function renderProjects() {
+            const grid = $('projects-grid');
+            grid.replaceChildren();
+            DATA.projects.forEach(p => {
+                const card = el('div', 'project-card');
+                card.dataset.id = p.id;
+                const h = el('h3', 'editable', p.title); h.dataset.role = 'title'; h.dataset.single = '1';
+                const d = el('p', 'editable', p.desc); d.dataset.role = 'desc';
+                card.append(h, d);
+                if (p.tags && p.tags.length) {
+                    const row = el('div', 'tag-row');
+                    p.tags.forEach(t => row.append(el('span', 'mini-tag', t)));
+                    card.append(row);
                 }
-            } else {
-                // Save current edits permanently to browser localStorage
-                const portfolioData = {
-                    heroTitle: document.getElementById('hero-title').innerHTML,
-                    heroSubtitle: document.getElementById('hero-subtitle').innerText,
-                    aboutText: document.getElementById('about-text').innerText,
-                    logo: document.getElementById('logo-text').innerText,
-                    proj1Desc: document.querySelector('[data-field="proj1Desc"]').innerText,
-                    proj2Desc: document.querySelector('[data-field="proj2Desc"]').innerText,
-                    proj3Desc: document.querySelector('[data-field="proj3Desc"]').innerText,
-                    proj4Desc: document.querySelector('[data-field="proj4Desc"]').innerText
-                };
-                localStorage.setItem('portfolio_tb2phd_data', JSON.stringify(portfolioData));
+                const url = safeUrl(p.url);
+                if (url) {
+                    const a = el('a', 'btn btn-sm', 'Live Demo');
+                    a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+                    card.append(a);
+                }
+                const tools = el('div', 'admin-only admin-tools');
+                const inp = document.createElement('input');
+                inp.type = 'url'; inp.className = 'field url-input'; inp.value = p.url || '';
+                inp.placeholder = 'Live Demo link (https://...)'; inp.setAttribute('aria-label', 'Live Demo link');
+                const del = el('button', 'btn btn-sm btn-danger', 'Delete'); del.type = 'button';
+                del.addEventListener('click', () => deleteProject(p.id));
+                tools.append(inp, del);
+                card.append(tools);
+                grid.append(card);
+            });
+            applyEditable();
+        }
+        function renderSkills() {
+            const box = $('skills-list');
+            box.replaceChildren();
+            DATA.skills.forEach((s, i) => {
+                const tag = el('div', 'skill-tag');
+                tag.append(el('span', null, s));
+                const x = el('button', 'tag-x admin-only', '×'); x.type = 'button';
+                x.setAttribute('aria-label', 'Remove ' + s);
+                x.addEventListener('click', () => removeSkill(i));
+                tag.append(x);
+                box.append(tag);
+            });
+        }
+        function renderAll() { applyFields(); renderProjects(); renderSkills(); }
 
-                isAdmin = false;
-                document.getElementById("admin-toggle-btn").innerText = "Admin Login";
-                document.getElementById("admin-toggle-btn").style.backgroundColor = "var(--accent)";
-                
-                // Disable content editing
-                document.querySelectorAll('.editable').forEach(el => {
-                    el.removeAttribute('contenteditable');
-                });
-
-                // Hide AI buttons
-                document.querySelectorAll('.ai-btn').forEach(btn => {
-                    btn.style.display = 'none';
-                });
-                alert("Changes saved permanently to browser storage!");
-            }
+        // Pull any collected edits from the page back into DATA
+        function collectFromDOM() {
+            let invalid = 0;
+            document.querySelectorAll('[data-field]').forEach(e => { DATA.fields[e.dataset.field] = e.textContent.trim(); });
+            document.querySelectorAll('.project-card').forEach(card => {
+                const p = DATA.projects.find(x => x.id === card.dataset.id);
+                if (!p) return;
+                p.title = card.querySelector('[data-role="title"]').textContent.trim();
+                p.desc = card.querySelector('[data-role="desc"]').textContent.trim();
+                const raw = card.querySelector('.url-input').value.trim();
+                const ok = raw ? safeUrl(raw) : '';
+                if (raw && !ok) invalid++;
+                p.url = ok;
+            });
+            return invalid;
         }
 
-        // AI Generator Integration
-        function triggerAI(sectionType) {
-            if (sectionType === 'hero') {
-                document.getElementById('hero-title').innerHTML = "Hi, I'm <span>Full-Stack Engineer</span>";
-                document.getElementById('hero-subtitle').innerText = "Specializing in automated workflows, database architectures, and intuitive web applications.";
-            } else if (sectionType === 'about') {
-                document.getElementById('about-text').innerText = "Passionate software engineer with a strong academic and practical background in full-stack development, Python backend services, and relational data management. Adept at building robust utilities, custom tracking systems, and efficient deployment pipelines.";
-            } else if (sectionType === 'projects') {
-                document.querySelector('[data-field="proj1Desc"]').innerText = "A robust full-stack CRM web application built using Python, Flask, and SQLite. Features secure user authentication, interactive data entry grids, and clean dashboard layouts designed to streamline client tracking.";
-                document.querySelector('[data-field="proj2Desc"]').innerText = "A lightweight, high-performance single-page dashboard optimized for tracking session statistics, maintaining structured progress notes, and organizing media records cleanly.";
-                document.querySelector('[data-field="proj3Desc"]').innerText = "An interactive scientific web platform designed to translate complex space weather phenomena, solar data metrics, and atmospheric telemetry into accessible visual insights.";
-                document.querySelector('[data-field="proj4Desc"]').innerText = "A productivity-focused web utility that automates monthly report structuring, simplifies recurring content generation, and streamlines document exporting.";
-
-                alert("✨ AI successfully enhanced all project descriptions! Click 'Exit & Save Permanently' to store changes.");
-            }
+        // ====== LOAD SAVED CONTENT FROM SERVER ======
+        async function loadRemote() {
+            if (!API_URL) return;
+            try {
+                const ctrl = new AbortController();
+                const timer = setTimeout(() => ctrl.abort(), 8000);
+                const r = await fetch(API_URL + '?action=content', { signal: ctrl.signal });
+                clearTimeout(timer);
+                const j = await r.json();
+                if (!j.ok || !j.data) return;
+                if (j.data.fields) DATA.fields = Object.assign({}, DEFAULT_DATA.fields, j.data.fields);
+                if (Array.isArray(j.data.projects)) DATA.projects = j.data.projects;
+                if (Array.isArray(j.data.skills)) DATA.skills = j.data.skills;
+                renderAll();
+            } catch (e) { /* keep defaults */ }
         }
+
+        // ====== ADMIN ======
+        function endAdmin() {
+            adminToken = null;
+            document.body.classList.remove('is-admin');
+            applyEditable();
+        }
+        async function saveAll(okMsg) {
+            if (!adminToken) return false;
+            const invalid = collectFromDOM();
+            try {
+                const j = await api({ action: 'save', token: adminToken, data: DATA });
+                if (j.ok) {
+                    renderProjects();
+                    toast((okMsg || 'Saved to server.') + (invalid ? ' (' + invalid + ' invalid link(s) were cleared.)' : ''));
+                    return true;
+                }
+                if (j.error === 'unauthorized') { endAdmin(); toast('Session expired. Please log in again.'); return false; }
+                toast('Save failed: ' + (j.error || 'unknown error'));
+            } catch (e) { toast('Could not reach the server. Nothing was saved.'); }
+            return false;
+        }
+        async function deleteProject(id) {
+            const p = DATA.projects.find(x => x.id === id);
+            if (!p || !confirm('Delete "' + p.title + '"?')) return;
+            collectFromDOM();
+            DATA.projects = DATA.projects.filter(x => x.id !== id);
+            renderProjects();
+            await saveAll('Project deleted.');
+        }
+        async function addSkill() {
+            const inp = $('new-skill');
+            const v = inp.value.trim().slice(0, 60);
+            if (!v) return;
+            if (DATA.skills.some(s => s.toLowerCase() === v.toLowerCase())) { toast('That skill is already listed.'); return; }
+            DATA.skills.push(v);
+            inp.value = '';
+            renderSkills();
+            await saveAll('Skill added and saved.');
+        }
+        async function removeSkill(i) {
+            DATA.skills.splice(i, 1);
+            renderSkills();
+            await saveAll('Skill removed.');
+        }
+
+        $('admin-login-btn').addEventListener('click', () => {
+            $('login-error').textContent = '';
+            $('login-dialog').showModal();
+            $('admin-email').focus();
+        });
+        $('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const err = $('login-error'), btn = $('login-submit');
+            err.textContent = '';
+            if (!API_URL) { err.textContent = 'Backend not connected yet. Deploy Code.gs and paste its URL into API_URL.'; return; }
+            btn.disabled = true; btn.textContent = 'Checking…';
+            try {
+                const j = await api({ action: 'login', email: $('admin-email').value.trim(), password: $('admin-password').value });
+                if (j.ok) {
+                    adminToken = j.token;
+                    $('admin-password').value = '';
+                    $('login-dialog').close();
+                    document.body.classList.add('is-admin');
+                    applyEditable();
+                    toast('Admin access granted. Edit any text, then click Save to Server.');
+                } else {
+                    err.textContent = j.error === 'locked' ? 'Too many failed attempts. Try again in 15 minutes.' : 'Invalid email or password.';
+                }
+            } catch (ex) { err.textContent = 'Could not reach the server.'; }
+            btn.disabled = false; btn.textContent = 'Log in';
+        });
+        $('save-btn').addEventListener('click', () => saveAll('All changes saved to server.'));
+        $('logout-btn').addEventListener('click', async () => {
+            const t = adminToken;
+            endAdmin();
+            try { await api({ action: 'logout', token: t }); } catch (e) {}
+            toast('Logged out.');
+        });
+
+        $('add-project-btn').addEventListener('click', () => {
+            $('project-form').reset();
+            $('project-error').textContent = '';
+            $('project-dialog').showModal();
+            $('np-title').focus();
+        });
+        $('project-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const err = $('project-error');
+            const rawUrl = $('np-url').value.trim();
+            const url = rawUrl ? safeUrl(rawUrl) : '';
+            if (rawUrl && !url) { err.textContent = 'Enter a valid link starting with http:// or https://'; return; }
+            collectFromDOM();
+            DATA.projects.push({
+                id: 'p' + Date.now(),
+                title: $('np-title').value.trim(),
+                desc: $('np-desc').value.trim(),
+                url: url,
+                tags: $('np-tags').value.split(',').map(t => t.trim()).filter(Boolean).slice(0, 8)
+            });
+            $('project-dialog').close();
+            renderProjects();
+            await saveAll('Project added and saved.');
+        });
+        document.querySelectorAll('dialog [data-close]').forEach(b => b.addEventListener('click', () => b.closest('dialog').close()));
+        $('add-skill-btn').addEventListener('click', addSkill);
+        $('new-skill').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addSkill(); } });
+
+        // Plain-text paste and no line breaks in single-line fields while editing
+        document.addEventListener('paste', (e) => {
+            if (e.target.closest && e.target.closest('[contenteditable="true"]')) {
+                e.preventDefault();
+                const text = (e.clipboardData || window.clipboardData).getData('text/plain');
+                document.execCommand('insertText', false, text);
+            }
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && e.target.dataset && e.target.dataset.single && e.target.isContentEditable) e.preventDefault();
+        });
+
+        // ====== CONTACT FORM ======
+        $('contact-form').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const btn = $('submit-btn');
+            btn.textContent = 'Sending...';
+            btn.disabled = true;
+            const formData = {
+                name: $('form-name').value.trim(),
+                email: $('form-email').value.trim(),
+                message: $('form-message').value.trim()
+            };
+            // no-cors: the browser can't read the reply, so "sent" means the request left successfully.
+            fetch(CONTACT_URL, {
+                method: 'POST', mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(formData)
+            })
+            .then(() => { toast('Thank you! Your message has been sent.'); $('contact-form').reset(); })
+            .catch(() => toast('Oops! Something went wrong. Please try again.'))
+            .finally(() => { btn.textContent = 'Send Message'; btn.disabled = false; });
+        });
+
+        // ====== START ======
+        applyTheme(document.documentElement.dataset.theme === 'light' ? 'light' : 'dark');
+        renderAll();
+        loadRemote();
     </script>
 </body>
 </html>
