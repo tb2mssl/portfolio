@@ -75,6 +75,8 @@
         section { padding: 5rem 10%; max-width: 1200px; margin: 0 auto; scroll-margin-top: 80px; }
         section h2 { font-size: 2rem; margin-bottom: 2rem; border-bottom: 2px solid var(--border); padding-bottom: .5rem; }
         .about-content { font-size: 1.1rem; color: var(--text-secondary); }
+        .section-intro { color: var(--text-secondary); max-width: 760px; margin: -1rem 0 2rem; font-size: 1.05rem; }
+        #contact-section .section-intro { margin: -1rem auto 2rem; text-align: center; }
 
         .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
         .project-card {
@@ -167,17 +169,18 @@
     <main>
         <section class="hero">
             <h1>Hi, I'm <span class="editable" data-field="heroName" data-single="1">Tushar Bhatt</span></h1>
-            <p class="editable" data-field="heroSubtitle">Software Developer building scalable web applications, robust backends, and data-driven solutions with Python, Flask, and JavaScript.</p>
+            <p class="editable" data-field="heroSubtitle">Software Developer building scalable web applications, CRM and business-intelligence platforms, and data-driven tools with Python, Flask, PostgreSQL, and JavaScript.</p>
             <a href="#projects" class="btn">View My Work</a>
         </section>
 
         <section id="about">
             <h2>About Me</h2>
-            <div class="about-content editable" data-field="aboutText">I am a dedicated software developer experienced in building full-stack applications, managing relational databases, and automating data pipelines. My primary toolchain includes Python, Flask, SQLite, PostgreSQL, HTML/CSS, and JavaScript. I love turning complex technical challenges into clean, efficient web applications.</div>
+            <div class="about-content editable" data-field="aboutText">I am a software developer who builds full-stack web applications end to end: database design, Python/Flask back ends, JavaScript front ends, dashboards, and deployment. My work includes an international CRM with business-intelligence charts and GIS maps, a Flask lead-management CRM with role-based access, report and document generators, and finance and research tools. I enjoy turning data-heavy, process-heavy problems into clear, reliable applications that people can use every day. I also built Space Weather Research, a resource hub for solar physics and heliophysics enthusiasts.</div>
         </section>
 
         <section id="projects">
             <h2>Featured Projects</h2>
+            <p class="section-intro editable" data-field="projectsIntro">A selection of web applications I have designed, built and deployed, from CRM and analytics platforms to research and productivity tools. Each one has a live demo.</p>
             <div class="section-tools admin-only">
                 <button type="button" class="btn" id="add-project-btn">＋ Add Project</button>
             </div>
@@ -186,6 +189,7 @@
 
         <section id="skills">
             <h2>Tech Stack &amp; Skills</h2>
+            <p class="section-intro editable" data-field="skillsIntro">The languages, frameworks and practices I use to design, build and ship these projects.</p>
             <div class="skills-list" id="skills-list"></div>
             <div class="skill-add admin-only">
                 <input type="text" class="field" id="new-skill" maxlength="60" placeholder="Add a skill, e.g. Docker" aria-label="New skill">
@@ -195,6 +199,7 @@
 
         <section id="contact-section">
             <h2>Get In Touch</h2>
+            <p class="section-intro editable" data-field="contactIntro">Have a project, question or opportunity in mind? Send me a message and I will get back to you.</p>
             <form id="contact-form" class="contact-form">
                 <div class="form-group">
                     <label for="form-name">Your Name</label>
@@ -263,17 +268,20 @@
         // ====== CONFIGURATION ======
         // Existing Google Apps Script used by the contact form (unchanged behaviour).
         const CONTACT_URL = "https://script.google.com/macros/s/AKfycbx0vr35dSHTIbuQWI4MjmM7bGyrys9MSmS71DigodnD4QfZMcGNLzVH5TxvdgAeitZVUg/exec";
-        // Paste the Web app URL of the new backend (Code.gs) here to turn on admin login + server storage.
-        const API_URL = "https://script.google.com/macros/s/AKfycbyHQ_z4zNzq7yx11IVKOm3YopVDGIIf6apHGj6N5AsbLDgE9E7HNFOIJfYxnWVCtG3n/exec";
+        // Web app URL of the portfolio backend (Code.gs): powers admin login and server storage.
+        const API_URL = "https://script.google.com/macros/s/AKfycbxe1kM4s4er0GV56DjrijLZjt1fILXUsjhcLyiitVY2bOktf51W683nmhxzkXUuZnFV/exec";
 
         // ====== DEFAULT CONTENT (shown until the server returns saved content) ======
         const DEFAULT_DATA = {
             fields: {
                 logo: "Tushar Bhatt Portfolio",
                 heroName: "Tushar Bhatt",
-                heroSubtitle: "Software Developer building scalable web applications, robust backends, and data-driven solutions with Python, Flask, and JavaScript.",
-                aboutText: "I am a dedicated software developer experienced in building full-stack applications, managing relational databases, and automating data pipelines. My primary toolchain includes Python, Flask, SQLite, PostgreSQL, HTML/CSS, and JavaScript. I love turning complex technical challenges into clean, efficient web applications.",
-                footerText: "© 2026 Tushar Bhatt Portfolio. Built with passion and clean code."
+                heroSubtitle: "Software Developer building scalable web applications, CRM and business-intelligence platforms, and data-driven tools with Python, Flask, PostgreSQL, and JavaScript.",
+                aboutText: "I am a software developer who builds full-stack web applications end to end: database design, Python/Flask back ends, JavaScript front ends, dashboards, and deployment. My work includes an international CRM with business-intelligence charts and GIS maps, a Flask lead-management CRM with role-based access, report and document generators, and finance and research tools. I enjoy turning data-heavy, process-heavy problems into clear, reliable applications that people can use every day. I also built Space Weather Research, a resource hub for solar physics and heliophysics enthusiasts.",
+                footerText: "© 2026 Tushar Bhatt Portfolio. Built with passion and clean code.",
+                projectsIntro: "A selection of web applications I have designed, built and deployed, from CRM and analytics platforms to research and productivity tools. Each one has a live demo.",
+                skillsIntro: "The languages, frameworks and practices I use to design, build and ship these projects.",
+                contactIntro: "Have a project, question or opportunity in mind? Send me a message and I will get back to you."
             },
             projects: [
                 {
@@ -607,3 +615,4 @@
     </script>
 </body>
 </html>
+
