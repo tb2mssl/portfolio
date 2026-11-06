@@ -269,7 +269,7 @@
         // Existing Google Apps Script used by the contact form (unchanged behaviour).
         const CONTACT_URL = "https://script.google.com/macros/s/AKfycbx0vr35dSHTIbuQWI4MjmM7bGyrys9MSmS71DigodnD4QfZMcGNLzVH5TxvdgAeitZVUg/exec";
         // Web app URL of the portfolio backend (Code.gs): powers admin login and server storage.
-        const API_URL = "https://script.google.com/macros/s/AKfycbxzpmEx9hMqhe6zq_-mptn0YMnojz9lBhyliFbTWHAXK3PK1jJNDL7BJ47B-GOni-5s/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbxe1kM4s4er0GV56DjrijLZjt1fILXUsjhcLyiitVY2bOktf51W683nmhxzkXUuZnFV/exec";
 
         // ====== DEFAULT CONTENT (shown until the server returns saved content) ======
         const DEFAULT_DATA = {
@@ -484,7 +484,7 @@
                     return true;
                 }
                 if (j.error === 'unauthorized') { endAdmin(); toast('Session expired. Please log in again.'); return false; }
-                toast('Save failed: ' + (j.error || 'unknown error'));
+                toast('Save failed: ' + (j.error || 'unknown error') + (j.detail ? ' (' + j.detail + ')' : ''));
             } catch (e) { toast('Could not reach the server. Nothing was saved.'); }
             return false;
         }
@@ -615,4 +615,3 @@
     </script>
 </body>
 </html>
-
