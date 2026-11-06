@@ -269,7 +269,7 @@
         // Existing Google Apps Script used by the contact form (unchanged behaviour).
         const CONTACT_URL = "https://script.google.com/macros/s/AKfycbx0vr35dSHTIbuQWI4MjmM7bGyrys9MSmS71DigodnD4QfZMcGNLzVH5TxvdgAeitZVUg/exec";
         // Web app URL of the portfolio backend (Code.gs): powers admin login and server storage.
-        const API_URL = "https://script.google.com/macros/s/AKfycbzodj2C6mWYoiqnT4kME6_0N8zJTlsM5uarmkeHm11HeMHoz5RmaOOVJ9j_29RycjIm4w/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbxe1kM4s4er0GV56DjrijLZjt1fILXUsjhcLyiitVY2bOktf51W683nmhxzkXUuZnFV/exec";
 
         // ====== DEFAULT CONTENT (shown until the server returns saved content) ======
         const DEFAULT_DATA = {
@@ -360,7 +360,15 @@
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify(payload)
             });
-            return r.json();
+            const text = await r.text();
+            try { return JSON.parse(text); }
+            catch (e) { const err = new Error('BAD_RESPONSE'); err.bad = true; throw err; }
+        }
+        function serverProblem(ex) {
+            console.error('Portfolio server error:', ex);
+            return ex && ex.bad
+                ? 'The server replied with an error page instead of data. In Apps Script, check that the deployment is "Execute as: Me" and "Who has access: Anyone", then redeploy a New version.'
+                : 'Cannot reach the server. Check that API_URL is the latest Web app URL (ending in /exec) and that access is set to Anyone.';
         }
 
         // ====== THEME (Black / White) ======
@@ -485,7 +493,7 @@
                 }
                 if (j.error === 'unauthorized') { endAdmin(); toast('Session expired. Please log in again.'); return false; }
                 toast('Save failed: ' + (j.error || 'unknown error') + (j.detail ? ' (' + j.detail + ')' : ''));
-            } catch (e) { toast('Could not reach the server. Nothing was saved.'); }
+            } catch (e) { toast(serverProblem(e) + ' Nothing was saved.'); }
             return false;
         }
         async function deleteProject(id) {
@@ -535,7 +543,7 @@
                 } else {
                     err.textContent = j.error === 'locked' ? 'Too many failed attempts. Try again in 15 minutes.' : 'Invalid email or password.';
                 }
-            } catch (ex) { err.textContent = 'Could not reach the server.'; }
+            } catch (ex) { err.textContent = serverProblem(ex); }
             btn.disabled = false; btn.textContent = 'Log in';
         });
         $('save-btn').addEventListener('click', () => saveAll('All changes saved to server.'));
